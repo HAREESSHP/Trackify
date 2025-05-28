@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trackify - Login</title>
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* Remove the tip/profile card background and center the main content */
+        body {
+            background: #f4f6fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        html, body {
+            height: 100%;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            margin: 0;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.15);
+            padding: 32px 28px 24px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .branding {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .branding img {
+            width: 60px;
+            margin-bottom: 8px;
+        }
+        .branding h1 {
+            font-size: 2rem;
+            color: #2d3a4b;
+            margin: 0;
+            font-weight: 700;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 24px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7a869a;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-bottom 0.2s;
+        }
+        .tab.active {
+            color: #2d3a4b;
+            border-bottom: 2px solid #3b82f6;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2d3a4b;
+            font-size: 1rem;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f9fafb;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border: 1.5px solid #3b82f6;
+            outline: none;
+        }
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .refresh-captcha {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .error {
+            color: #e53e3e;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .success {
+            color: #22c55e;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover {
+            background: #2563eb;
+        }
+        .illustration {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .illustration img {
+            width: 120px;
+            opacity: 0.9;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 18px 6px 12px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="branding">
+            <img src="https://img.icons8.com/fluency/96/ledger.png" alt="Trackify Logo">
+            <h1>Trackify</h1>
+        </div>
+        <div class="illustration">
+            <img src="https://img.icons8.com/color/240/accounting.png" alt="Illustration">
+        </div>
+        <div class="tabs">
+            <div class="tab active" id="signInTab">Sign In</div>
+            <div class="tab" id="signUpTab">Sign Up</div>
+        </div>
+        <div id="formError" class="error" style="display:none;"></div>
+        <div id="formSuccess" class="success" style="display:none;"></div>
+        <form id="signInForm">
+            <div class="form-group">
+                <label for="signin-phone">Phone Number</label>
+                <input type="text" id="signin-phone" maxlength="15" placeholder="Enter phone number" required pattern="[0-9]{10,15}">
+            </div>
+            <div class="form-group">
+                <label for="signin-password">Password</label>
+                <div style="position:relative;">
+                    <input type="password" id="signin-password" placeholder="Enter password" required style="padding-right:36px;">
+                    <button type="button" id="toggle-signin-password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;">
+                        <span id="signin-eye" style="font-size:1.2rem;">👁️</span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Captcha</label>
+                <div class="captcha-row">
+                    <span id="signin-captcha-question"></span>
+                    <button type="button" class="refresh-captcha" onclick="generateCaptcha('signin')" title="Refresh Captcha">&#x21bb;</button>
+                    <input type="text" id="signin-captcha-answer" placeholder="Answer" required style="width:70px;">
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Sign In</button>
+        </form>
+        <form id="signUpForm" style="display:none;">
+            <div class="form-group">
+                <label for="signup-phone">Phone Number</label>
+                <input type="text" id="signup-phone" maxlength="15" placeholder="Enter phone number" required pattern="[0-9]{10,15}">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <div style="position:relative;">
+                    <input type="password" id="signup-password" placeholder="Create password" required style="padding-right:36px;">
+                    <button type="button" id="toggle-signup-password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;">
+                        <span id="signup-eye" style="font-size:1.2rem;">👁️</span>
+                    </button>
+                </div>
+                <div id="password-condition" style="font-size:0.95rem;color:#64748b;margin-top:4px;">
+                    <span>Password must be at least 6 characters and include both letters and numbers.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-password">Confirm Password</label>
+                <input type="password" id="signup-confirm-password" placeholder="Confirm password" required>
+            </div>
+            <div class="form-group">
+                <label>Captcha</label>
+                <div class="captcha-row">
+                    <span id="signup-captcha-question"></span>
+                    <button type="button" class="refresh-captcha" onclick="generateCaptcha('signup')" title="Refresh Captcha">&#x21bb;</button>
+                    <input type="text" id="signup-captcha-answer" placeholder="Answer" required style="width:70px;">
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Sign Up</button>
+        </form>
+    </div>
+    <script>
+        const API_BASE = "http://localhost:3001";
+        // Tab switching
+        const signInTab = document.getElementById('signInTab');
+        const signUpTab = document.getElementById('signUpTab');
+        const signInForm = document.getElementById('signInForm');
+        const signUpForm = document.getElementById('signUpForm');
+        const formError = document.getElementById('formError');
+        const formSuccess = document.getElementById('formSuccess');
+
+        signInTab.onclick = () => {
+            signInTab.classList.add('active');
+            signUpTab.classList.remove('active');
+            signInForm.style.display = '';
+            signUpForm.style.display = 'none';
+            formError.style.display = 'none';
+            formSuccess.style.display = 'none';
+        };
+        signUpTab.onclick = () => {
+            signUpTab.classList.add('active');
+            signInTab.classList.remove('active');
+            signUpForm.style.display = '';
+            signInForm.style.display = 'none';
+            formError.style.display = 'none';
+            formSuccess.style.display = 'none';
+        };
+
+        // Captcha logic
+        let captchaAnswers = { signin: null, signup: null };
+        function generateCaptcha(type) {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            const op = Math.random() > 0.5 ? '+' : '-';
+            const question = `${a} ${op} ${b} = ?`;
+            const answer = op === '+' ? a + b : a - b;
+            if (type === 'signin') {
+                document.getElementById('signin-captcha-question').textContent = question;
+                captchaAnswers.signin = answer;
+            } else {
+                document.getElementById('signup-captcha-question').textContent = question;
+                captchaAnswers.signup = answer;
+            }
+        }
+        generateCaptcha('signin');
+        generateCaptcha('signup');
+
+        // Validation helpers
+        function validatePhone(phone) {
+            return /^[0-9]{10,15}$/.test(phone);
+        }
+        function validatePassword(password) {
+            return password.length >= 6 && /[A-Za-z]/.test(password) && /[0-9]/.test(password);
+        }
+
+        // Sign In logic
+        signInForm.onsubmit = async function(e) {
+            e.preventDefault();
+            formError.style.display = 'none';
+            formSuccess.style.display = 'none';
+            const phone = document.getElementById('signin-phone').value.trim();
+            const password = document.getElementById('signin-password').value;
+            const captcha = document.getElementById('signin-captcha-answer').value.trim();
+            if (!validatePhone(phone)) {
+                showError('Please enter a valid phone number.');
+                return;
+            }
+            if (!password) {
+                showError('Please enter your password.');
+                return;
+            }
+            if (parseInt(captcha) !== captchaAnswers.signin) {
+                showError('Captcha answer is incorrect.');
+                generateCaptcha('signin');
+                return;
+            }
+            // Send to backend
+            try {
+                const res = await fetch(`${API_BASE}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ phone, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    formSuccess.textContent = 'Login successful! Redirecting...';
+                    formSuccess.style.display = '';
+                    setTimeout(() => { window.location.href = 'stu.html'; }, 1000);
+                } else {
+                    showError(data.error || 'Login failed.');
+                    generateCaptcha('signin');
+                }
+            } catch (err) {
+                showError('Server error. Please try again.');
+            }
+        };
+
+        // Sign Up logic
+        signUpForm.onsubmit = async function(e) {
+            e.preventDefault();
+            formError.style.display = 'none';
+            formSuccess.style.display = 'none';
+            const phone = document.getElementById('signup-phone').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            const captcha = document.getElementById('signup-captcha-answer').value.trim();
+            if (!validatePhone(phone)) {
+                showError('Please enter a valid phone number.');
+                return;
+            }
+            if (!validatePassword(password)) {
+                showError('Password must be at least 6 characters and include both letters and numbers.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showError('Passwords do not match.');
+                return;
+            }
+            if (parseInt(captcha) !== captchaAnswers.signup) {
+                showError('Captcha answer is incorrect.');
+                generateCaptcha('signup');
+                return;
+            }
+            // Send to backend
+            try {
+                const res = await fetch(`${API_BASE}/api/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ phone, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    formSuccess.textContent = 'Registration successful! Please sign in.';
+                    formSuccess.style.display = '';
+                    setTimeout(() => {
+                        signInTab.click();
+                        signUpForm.reset();
+                    }, 1200);
+                } else if (res.status === 409) {
+                    showError('Phone number already registered.');
+                    generateCaptcha('signup');
+                } else {
+                    showError(data.error || 'Registration failed.');
+                    generateCaptcha('signup');
+                }
+            } catch (err) {
+                showError('Server error. Please try again.');
+            }
+        };
+
+        function showError(msg) {
+            formError.textContent = msg;
+            formError.style.display = '';
+        }
+
+        // Eye icon logic for password fields
+        function setupPasswordToggle(inputId, btnId, eyeId) {
+            const input = document.getElementById(inputId);
+            const btn = document.getElementById(btnId);
+            const eye = document.getElementById(eyeId);
+            let timeout = null;
+            btn.onclick = function() {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    eye.textContent = '🙈';
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        input.type = 'password';
+                        eye.textContent = '👁️';
+                    }, 3000);
+                } else {
+                    input.type = 'password';
+                    eye.textContent = '👁️';
+                    clearTimeout(timeout);
+                }
+            };
+        }
+        setupPasswordToggle('signup-password', 'toggle-signup-password', 'signup-eye');
+        setupPasswordToggle('signin-password', 'toggle-signin-password', 'signin-eye');
+    </script>
+</body>
+</html>

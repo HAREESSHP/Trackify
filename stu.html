@@ -1,0 +1,105 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Trackify</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="dashboard-navbar">
+    <div class="navbar-logo">Trackify</div>
+    <ul class="navbar-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#transactions">Transactions</a></li>
+      <li><a href="#reports">Reports</a></li>
+      <li><button id="logout-btn" class="dashboard-btn" style="padding:0.4rem 1.2rem;font-size:1rem;background:#e53e3e;box-shadow:none;">Logout</button></li>
+    </ul>
+    <div class="navbar-profile" id="navbar-profile" style="cursor:pointer;display:flex;align-items:center;gap:0.7rem;">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" style="width:40px;height:40px;border-radius:50%;background:#fff;box-shadow:0 2px 8px #1a4fa322;">
+      <span id="profile-name-short" style="font-weight:700;color:#1a4fa3;font-size:1.1rem;">Profile</span>
+    </div>
+  </nav>
+
+    <section class="dashboard-content">
+      <div class="dashboard-features-grid">
+        <div class="dashboard-feature-card">
+          <h3>💸 Add Transaction</h3>
+          <form id="transactionForm">
+            <input type="number" id="amount" placeholder="Amount" required class="dashboard-input" />
+            <select id="type" class="dashboard-input">
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <input type="text" id="category" placeholder="Category (e.g. Food)" class="dashboard-input" />
+            <button type="submit" class="dashboard-btn">Add</button>
+          </form>
+        </div>
+        
+        <div class="dashboard-feature-card">
+          <h3>🥧 Monthly Expenditure</h3>
+          <canvas id="pieChart" style="max-width:320px;max-height:320px;margin:0 auto;display:block;"></canvas>
+        </div>
+        <div class="dashboard-feature-card">
+          <h3>📊 Yearly Expenditure</h3>
+          <canvas id="barChart" style="max-width:420px;max-height:320px;margin:0 auto;display:block;"></canvas>
+        </div>
+        <div class="dashboard-feature-card">
+          <h3>💼 Summary</h3>
+          <div>Total Balance: ₹<span id="totalBalance">0</span></div>
+          <div>Income: ₹<span id="totalIncome">0</span></div>
+          <div>Expenses: ₹<span id="totalExpense">0</span></div>
+        </div>
+      </div>
+      <div class="dashboard-expense-list">
+        <h2>Transaction History</h2>
+        <input type="text" placeholder="Search..." id="searchInput" class="dashboard-input" />
+        <table style="width:100%;margin-top:1rem;">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="transactionTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <!-- Profile Modal -->
+  <div id="profile-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:#fff;padding:2rem 2.5rem;border-radius:1.5rem;max-width:400px;width:100%;box-shadow:0 8px 32px 0 rgba(30,41,59,0.15);position:relative;">
+      <button id="close-profile-modal" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+      <h2 style="margin-bottom:1.2rem;color:#1a4fa3;">Edit Profile</h2>
+      <form id="profile-form">
+        <input type="text" id="profile-name" class="dashboard-input" placeholder="Full Name" required />
+        <input type="tel" id="profile-phone" class="dashboard-input" placeholder="Phone" required />
+        <input type="password" id="profile-password" class="dashboard-input" placeholder="New Password (optional)" />
+        <input type="password" id="profile-password2" class="dashboard-input" placeholder="Confirm New Password" />
+        <button type="submit" class="dashboard-btn" style="width:100%;">Save Profile</button>
+        <div id="profile-status" style="margin-top:0.7rem;font-weight:bold;"></div>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="stu.js"></script>
+  <script>
+    // Profile modal open/close logic
+    const profileModal = document.getElementById('profile-modal');
+    const openProfileBtn = document.getElementById('open-profile-btn');
+    const closeProfileModal = document.getElementById('close-profile-modal');
+    const navbarProfile = document.getElementById('navbar-profile');
+    function showProfileModal() { profileModal.style.display = 'flex'; }
+    function hideProfileModal() { profileModal.style.display = 'none'; }
+    if (openProfileBtn) openProfileBtn.onclick = showProfileModal;
+    if (closeProfileModal) closeProfileModal.onclick = hideProfileModal;
+    if (navbarProfile) navbarProfile.onclick = showProfileModal;
+    profileModal.addEventListener('click', function(e) { if (e.target === profileModal) hideProfileModal(); });
+  </script>
+</body>
+</html>

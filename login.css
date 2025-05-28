@@ -1,0 +1,171 @@
+
+body.login-body {
+  background: linear-gradient(135deg, #eaf6ff 0%, #f7fafd 100%);
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.login-container {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 1.2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+.login-card {
+  display: flex;
+  background: #fff;
+  border-radius: 2.2rem;
+  box-shadow: 0 8px 40px 0 rgba(30,41,59,0.15);
+  overflow: hidden;
+  min-width: 720px;
+  max-width: 98vw;
+  margin: 2.5rem 0;
+  border: 1.5px solid #e0e7ef;
+}
+.login-card-left {
+  background: linear-gradient(120deg,#1a4fa3 60%,#2ec4b6 100%);
+  color: #fff;
+  padding: 2.7rem 2.5rem 2.7rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 270px;
+  max-width: 340px;
+  text-align: center;
+  position: relative;
+}
+.login-illustration img {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 1.5rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 16px 0 rgba(30,41,59,0.13);
+  border: 4px solid #eaf6ff;
+}
+.login-brand {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 0.7rem;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px #1a4fa355;
+}
+.login-tagline {
+  font-size: 1.13rem;
+  color: #eaf6ff;
+  margin-bottom: 0.5rem;
+  opacity: 0.95;
+}
+.login-card-right {
+  flex: 1;
+  padding: 2.7rem 2.5rem 2.7rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 340px;
+  background: #f7fafd;
+}
+.login-tabs {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.7rem;
+  justify-content: center;
+}
+.login-tab {
+  background: none;
+  border: none;
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #1a4fa3;
+  padding: 0.6rem 1.5rem 0.5rem 1.5rem;
+  border-bottom: 2.5px solid transparent;
+  cursor: pointer;
+  transition: border 0.2s, color 0.2s, background 0.2s;
+  border-radius: 8px 8px 0 0;
+  letter-spacing: 0.5px;
+}
+.login-tab.active {
+  border-bottom: 2.5px solid #1a4fa3;
+  color: #fff;
+  background: linear-gradient(90deg,#1a4fa3,#2ec4b6);
+  box-shadow: 0 2px 8px 0 #1a4fa322;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px 0 rgba(30,41,59,0.07);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  border: 1.5px solid #e0e7ef;
+}
+.login-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.95rem 1.1rem;
+  border: 1.5px solid #b6d4f7;
+  border-radius: 10px;
+  font-size: 1.08rem;
+  background: #f7fafd;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+.login-form input:focus {
+  border-color: #1a4fa3;
+  box-shadow: 0 0 0 2px #2ec4b633;
+}
+.cta-btn {
+  background: linear-gradient(90deg,#1a4fa3,#2ec4b6);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 0;
+  font-size: 1.13rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.07);
+  transition: background 0.2s, transform 0.1s;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+.cta-btn:hover {
+  background: linear-gradient(90deg,#2ec4b6,#1a4fa3);
+  transform: translateY(-2px) scale(1.03);
+}
+.cta-demo {
+  background: #fff;
+  color: #1a4fa3;
+  border: 1.5px solid #1a4fa3;
+  margin-top: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+.cta-demo:hover {
+  background: #eaf6ff;
+  color: #1a4fa3;
+}
+@media (max-width: 900px) {
+  .login-card { flex-direction: column; min-width: 320px; }
+  .login-card-left, .login-card-right { min-width: 0; max-width: 100vw; }
+}
+@media (max-width: 600px) {
+  .login-card { min-width: 90vw; padding: 0; }
+  .login-card-left, .login-card-right { padding: 1.2rem 0.7rem; }
+  .login-brand { font-size: 1.3rem; }
+  .login-form { padding: 1rem 0.5rem; }
+}
