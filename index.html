@@ -5,212 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trackify - Login</title>
     <link rel="stylesheet" href="login.css">
-    <style>
-        /* Remove the tip/profile card background and center the main content */
-        body {
-            background: #f4f6fb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        html, body {
-            height: 100%;
-        }
-        .container {
-            max-width: 400px;
-            width: 100%;
-            margin: 0;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.15);
-            padding: 32px 28px 24px 28px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .branding {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .branding img {
-            width: 60px;
-            margin-bottom: 8px;
-        }
-        .branding h1 {
-            font-size: 2rem;
-            color: #2d3a4b;
-            margin: 0;
-            font-weight: 700;
-        }
-        .tabs {
-            display: flex;
-            margin-bottom: 24px;
-        }
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px 0;
-            cursor: pointer;
-            font-weight: 600;
-            color: #7a869a;
-            border-bottom: 2px solid transparent;
-            transition: color 0.2s, border-bottom 0.2s;
-        }
-        .tab.active {
-            color: #2d3a4b;
-            border-bottom: 2px solid #3b82f6;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: #2d3a4b;
-            font-size: 1rem;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 1rem;
-            background: #f9fafb;
-            transition: border 0.2s;
-        }
-        input[type="text"]:focus, input[type="password"]:focus {
-            border: 1.5px solid #3b82f6;
-            outline: none;
-        }
-        .captcha-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .refresh-captcha {
-            background: none;
-            border: none;
-            color: #3b82f6;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .error {
-            color: #e53e3e;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .success {
-            color: #22c55e;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .submit-btn {
-            width: 100%;
-            background: #3b82f6;
-            color: #fff;
-            border: none;
-            padding: 12px 0;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: background 0.2s;
-        }
-        .submit-btn:hover {
-            background: #2563eb;
-        }
-        .illustration {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .illustration img {
-            width: 120px;
-            opacity: 0.9;
-        }
-        @media (max-width: 500px) {
-            .container {
-                padding: 18px 6px 12px 6px;
-            }
-        }
-    </style>
 </head>
-<body>
-    <div class="container">
-        <div class="branding">
-            <img src="https://img.icons8.com/fluency/96/ledger.png" alt="Trackify Logo">
-            <h1>Trackify</h1>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-card-left">
+                <div class="login-illustration">
+                    <img src="https://img.icons8.com/fluency/96/ledger.png" alt="Trackify Logo">
+                </div>
+                <div class="login-brand">Trackify</div>
+                <div class="login-tagline">Smart Tracking. Simple Login.</div>
+            </div>
+            <div class="login-card-right">
+                <div class="login-tabs">
+                    <button class="login-tab active" id="signInTab" type="button">Sign In</button>
+                    <button class="login-tab" id="signUpTab" type="button">Sign Up</button>
+                </div>
+                <div id="formError" class="error" style="display:none;"></div>
+                <div id="formSuccess" class="success" style="display:none;"></div>
+                <form id="signInForm" class="login-form">
+                    <div class="login-fields">
+                        <input type="text" id="signin-phone" maxlength="15" placeholder="Phone Number" required pattern="[0-9]{10,15}">
+                        <div style="position:relative;">
+                            <input type="password" id="signin-password" placeholder="Password" required style="padding-right:36px;">
+                            <button type="button" id="toggle-signin-password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;">
+                                <span id="signin-eye" style="font-size:1.2rem;">👁️</span>
+                            </button>
+                        </div>
+                        <div class="captcha-row">
+                            <span id="signin-captcha-question"></span>
+                            <button type="button" class="refresh-captcha" onclick="generateCaptcha('signin')" title="Refresh Captcha">&#x21bb;</button>
+                            <input type="text" id="signin-captcha-answer" placeholder="Captcha" required style="width:70px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="cta-btn">Sign In</button>
+                </form>
+                <form id="signUpForm" class="login-form" style="display:none;">
+                    <div class="login-fields">
+                        <input type="text" id="signup-phone" maxlength="15" placeholder="Phone Number" required pattern="[0-9]{10,15}">
+                        <div style="position:relative;">
+                            <input type="password" id="signup-password" placeholder="Create Password" required style="padding-right:36px;">
+                            <button type="button" id="toggle-signup-password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;">
+                                <span id="signup-eye" style="font-size:1.2rem;">👁️</span>
+                            </button>
+                        </div>
+                        <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+                        <div id="password-condition" style="font-size:0.95rem;color:#64748b;margin-top:4px;">
+                            <span>Password must be at least 6 characters and include both letters and numbers.</span>
+                        </div>
+                        <div class="captcha-row">
+                            <span id="signup-captcha-question"></span>
+                            <button type="button" class="refresh-captcha" onclick="generateCaptcha('signup')" title="Refresh Captcha">&#x21bb;</button>
+                            <input type="text" id="signup-captcha-answer" placeholder="Captcha" required style="width:70px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="cta-btn">Sign Up</button>
+                </form>
+            </div>
         </div>
-        <div class="illustration">
-            <img src="https://img.icons8.com/color/240/accounting.png" alt="Illustration">
-        </div>
-        <div class="tabs">
-            <div class="tab active" id="signInTab">Sign In</div>
-            <div class="tab" id="signUpTab">Sign Up</div>
-        </div>
-        <div id="formError" class="error" style="display:none;"></div>
-        <div id="formSuccess" class="success" style="display:none;"></div>
-        <form id="signInForm">
-            <div class="form-group">
-                <label for="signin-phone">Phone Number</label>
-                <input type="text" id="signin-phone" maxlength="15" placeholder="Enter phone number" required pattern="[0-9]{10,15}">
-            </div>
-            <div class="form-group">
-                <label for="signin-password">Password</label>
-                <div style="position:relative;">
-                    <input type="password" id="signin-password" placeholder="Enter password" required style="padding-right:36px;">
-                    <button type="button" id="toggle-signin-password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;">
-                        <span id="signin-eye" style="font-size:1.2rem;">👁️</span>
-                    </button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Captcha</label>
-                <div class="captcha-row">
-                    <span id="signin-captcha-question"></span>
-                    <button type="button" class="refresh-captcha" onclick="generateCaptcha('signin')" title="Refresh Captcha">&#x21bb;</button>
-                    <input type="text" id="signin-captcha-answer" placeholder="Answer" required style="width:70px;">
-                </div>
-            </div>
-            <button type="submit" class="submit-btn">Sign In</button>
-        </form>
-        <form id="signUpForm" style="display:none;">
-            <div class="form-group">
-                <label for="signup-phone">Phone Number</label>
-                <input type="text" id="signup-phone" maxlength="15" placeholder="Enter phone number" required pattern="[0-9]{10,15}">
-            </div>
-            <div class="form-group">
-                <label for="signup-password">Password</label>
-                <div style="position:relative;">
-                    <input type="password" id="signup-password" placeholder="Create password" required style="padding-right:36px;">
-                    <button type="button" id="toggle-signup-password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;">
-                        <span id="signup-eye" style="font-size:1.2rem;">👁️</span>
-                    </button>
-                </div>
-                <div id="password-condition" style="font-size:0.95rem;color:#64748b;margin-top:4px;">
-                    <span>Password must be at least 6 characters and include both letters and numbers.</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="signup-confirm-password">Confirm Password</label>
-                <input type="password" id="signup-confirm-password" placeholder="Confirm password" required>
-            </div>
-            <div class="form-group">
-                <label>Captcha</label>
-                <div class="captcha-row">
-                    <span id="signup-captcha-question"></span>
-                    <button type="button" class="refresh-captcha" onclick="generateCaptcha('signup')" title="Refresh Captcha">&#x21bb;</button>
-                    <input type="text" id="signup-captcha-answer" placeholder="Answer" required style="width:70px;">
-                </div>
-            </div>
-            <button type="submit" class="submit-btn">Sign Up</button>
-        </form>
     </div>
     <script>
         const API_BASE = "http://localhost:3001";
@@ -382,7 +234,7 @@
                     timeout = setTimeout(() => {
                         input.type = 'password';
                         eye.textContent = '👁️';
-                    }, 3000);
+                    }, 1000); // Show password for only 1 second
                 } else {
                     input.type = 'password';
                     eye.textContent = '👁️';
