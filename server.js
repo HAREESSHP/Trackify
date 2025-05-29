@@ -10,9 +10,24 @@ const PORT = 3001;
 
 const uri = process.env.MONGODB_URI;
 
+if (!uri) {
+  console.error('ERROR: MONGODB_URI environment variable is not set!');
+  process.exit(1);
+}
+
+console.log('Attempting to connect to MongoDB...');
+
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected!'))
-  .catch(err => console.error('MongoDB connection error:', err));
+
+
+.then(() => {
+    console.log('MongoDB connected!');
+    process.stdout.write(''); // Force flush
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
 
 
 app.use(cors({
