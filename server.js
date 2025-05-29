@@ -8,7 +8,11 @@ const session = require('express-session');
 const app = express();
 const PORT = 3001;
 
-mongoose.connect('mongodb://localhost:27017/trackify');
+const uri = process.env.MONGODB_URI;
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected!'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 
 app.use(cors({
