@@ -237,6 +237,18 @@ app.put('/api/profile', async (req, res) => {
   }
 });
 
+// Log all incoming requests for debugging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} body:`, req.body);
+  next();
+});
+
+// Global error handler (should be after all routes)
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err.stack || err);
+  res.status(500).json({ error: 'Server error (global handler)' });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
