@@ -245,8 +245,8 @@ app.use((req, res, next) => {
 
 // Global error handler (should be after all routes)
 app.use((err, req, res, next) => {
-  console.error('Global error handler:', err.stack || err);
-  res.status(500).json({ error: 'Server error (global handler)' });
+  console.error('Global error handler:', err.stack || err, '\nRequest body:', req.body);
+  res.status(500).json({ error: 'Server error (global handler)', details: err.message });
 });
 
 
