@@ -8,19 +8,19 @@ const session = require('express-session');
 const app = express();
 const PORT = 3001;
 
-const uri = process.env.MONGODB_URI;
+// Set your MongoDB connection string directly here if you don't want to use an environment variable
+const uri = "mongodb+srv://hareesh:may2006@trackify.lazhwsr.mongodb.net/?retryWrites=true&w=majority&appName=trackify";
 
-if (!uri) {
-  console.error('ERROR: MONGODB_URI environment variable is not set!');
-  process.exit(1);
-}
+// Comment out or remove the environment variable check
+// if (!uri) {
+//   console.error('ERROR: MONGODB_URI environment variable is not set!');
+//   process.exit(1);
+// }
 
 console.log('Attempting to connect to MongoDB...');
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-
-
-.then(() => {
+  .then(() => {
     console.log('MongoDB connected!');
     process.stdout.write(''); // Force flush
   })
