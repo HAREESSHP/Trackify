@@ -106,8 +106,8 @@ app.post('/api/register', async (req, res) => {
     req.session.userId = user._id;
     res.json({ message: 'User registered' });
   } catch (err) {
-    console.error('Register error:', err); // Log error for debugging
-    res.status(500).json({ error: 'Server error' });
+    console.error('Register error:', err);
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 
@@ -123,8 +123,8 @@ app.post('/api/login', async (req, res) => {
     req.session.userId = user._id;
     res.json({ message: 'Login successful' });
   } catch (err) {
-    console.error('Login error:', err); // Log error for debugging
-    res.status(500).json({ error: 'Server error' });
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 
@@ -250,7 +250,7 @@ app.use((req, res, next) => {
 // Global error handler (should be after all routes)
 app.use((err, req, res, next) => {
   console.error('Global error handler:', err.stack || err, '\nRequest body:', req.body);
-  res.status(500).json({ error: 'Server error (global handler)', details: err.message });
+  res.status(500).json({ error: 'Server error (global handler)', details: err.message || err });
 });
 
 
