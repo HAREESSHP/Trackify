@@ -34,7 +34,7 @@ app.use(cors({
   origin: [
     'http://localhost:5500',
     'http://127.0.0.1:5500',
-    'https://trackify-gv4i.onrender.com/' // <-- add your deployed frontend URL here
+    'https://trackify-gv4i.onrender.com' // <-- add your deployed frontend URL here
   ],
   credentials: true
 }));
